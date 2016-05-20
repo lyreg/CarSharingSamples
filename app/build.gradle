@@ -1,0 +1,47 @@
+apply plugin: 'com.android.application'
+
+android {
+    compileSdkVersion 23
+    buildToolsVersion "23.0.2"
+
+    defaultConfig {
+        applicationId "com.uestc.lyreg.carsharing"
+        minSdkVersion 21
+        targetSdkVersion 23
+        versionCode 1
+        versionName "1.0"
+    }
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+}
+
+dependencies {
+    compile fileTree(dir: 'libs', include: ['*.jar'])
+    testCompile 'junit:junit:4.12'
+    compile 'com.android.support:appcompat-v7:23.3.0'
+    compile 'com.android.support:design:23.3.0'
+
+
+    //Spongy Castle加密库
+    compile "com.madgag.spongycastle:core:$rootProject.ext.spongycastleVersion"
+    compile "com.madgag.spongycastle:prov:$rootProject.ext.spongycastleVersion"
+    compile "com.madgag.spongycastle:pkix:$rootProject.ext.spongycastleVersion"
+    compile "com.madgag.spongycastle:pg:$rootProject.ext.spongycastleVersion"
+
+    //RxAndroid and RxJava
+    compile "io.reactivex:rxandroid:$rootProject.ext.rxandroidVersion"
+    compile "io.reactivex:rxjava:$rootProject.ext.rxjavaVersion"
+
+    //Retrofit2
+    compile "com.squareup.retrofit2:retrofit:$rootProject.ext.retrofitVersion"
+    compile "com.squareup.retrofit2:converter-gson:$rootProject.ext.retrofitVersion"
+    compile "com.squareup.retrofit2:adapter-rxjava:$rootProject.ext.retrofitVersion"
+    compile "com.squareup.retrofit2:converter-jackson:$rootProject.ext.retrofitVersion"
+
+    compile "com.squareup.okhttp3:okhttp:$rootProject.ext.okhttpVersion"
+    compile "com.squareup.okhttp3:logging-interceptor:$rootProject.ext.okhttpVersion"
+}

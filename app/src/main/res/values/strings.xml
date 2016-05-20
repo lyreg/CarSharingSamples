@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">CarSharingSamples</string>
+    <string name="action_settings">Settings</string>
+
+    <integer name="trasition_duration">500</integer>
+    <string name="title_activity_enroll">EnrollActivity</string>
+</resources>
