@@ -15,7 +15,7 @@ public class Network {
 
     public static CarSharingService getCarSharingApi() {
         if(carSharingApi == null) {
-            ServiceFactory.createService(BASE_URL, CarSharingService.class);
+            carSharingApi = ServiceFactory.createService(BASE_URL, CarSharingService.class);
         }
 
         return carSharingApi;
