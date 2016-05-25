@@ -172,4 +172,9 @@ public class EnrollActivity extends AppCompatActivity
     public void showAlert(String msg) {
         Toast.makeText(getApplicationContext(), msg, Toast.LENGTH_SHORT).show();
     }
+
+    @Override
+    public void onEnrollSuccess(String crt, String crtSerialNumber) {
+        ((BaseApplication) getApplication()).setClientCrtSerialNum(crtSerialNumber);
+    }
 }

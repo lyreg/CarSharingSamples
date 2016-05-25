@@ -51,6 +51,11 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void onButtonOpenClicked(View v) {
+        if(v.getId() == R.id.button_open) {
+            Intent intent = new Intent(this, OpenActivity.class);
 
+            startActivity(intent,
+                    ActivityOptionsCompat.makeSceneTransitionAnimation(this).toBundle());
+        }
     }
 }

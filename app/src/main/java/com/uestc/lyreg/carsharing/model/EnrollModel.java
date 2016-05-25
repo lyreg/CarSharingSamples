@@ -109,7 +109,7 @@ public class EnrollModel implements EnrollMvpOps.ModelOps {
                 .subscribe(new Subscriber<RegResponse>() {
                     @Override
                     public void onCompleted() {
-                        Log.v(TAG, "onCompleted");
+                        Log.v(TAG, "Enroll Completed");
                     }
 
                     @Override
@@ -121,7 +121,7 @@ public class EnrollModel implements EnrollMvpOps.ModelOps {
                     public void onNext(RegResponse regResponse) {
                         Log.e(TAG, regResponse.getSerialNum());
                         Log.e(TAG, regResponse.getCert());
-                        mPresenter.onEnrollSuccess();
+                        mPresenter.onEnrollSuccess(regResponse);
                     }
                 });
     }

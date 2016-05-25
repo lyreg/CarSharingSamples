@@ -4,4 +4,5 @@
 
     <integer name="trasition_duration">500</integer>
     <string name="title_activity_enroll">EnrollActivity</string>
+    <string name="title_activity_open">OpenActivity</string>
 </resources>

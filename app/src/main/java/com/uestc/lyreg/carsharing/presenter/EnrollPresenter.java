@@ -1,6 +1,7 @@
 package com.uestc.lyreg.carsharing.presenter;
 
 import com.uestc.lyreg.carsharing.EnrollActivity;
+import com.uestc.lyreg.carsharing.entity.RegResponse;
 import com.uestc.lyreg.carsharing.model.EnrollModel;
 
 import java.lang.ref.WeakReference;
@@ -74,9 +75,10 @@ public class EnrollPresenter
      * when a new account is enrolled successfully
      */
     @Override
-    public void onEnrollSuccess() {
+    public void onEnrollSuccess(RegResponse response) {
         if(mView.get() != null) {
             mView.get().showToast("注册成功");
+            mView.get().onEnrollSuccess(response.getCert(), response.getSerialNum());
         }
     }
 

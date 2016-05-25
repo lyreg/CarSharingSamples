@@ -26,6 +26,10 @@
             android:label="@string/title_activity_enroll"
             android:theme="@style/AppTheme.NoActionBar"
             android:windowSoftInputMode="adjustPan|stateHidden" />
+        <activity
+            android:name=".OpenActivity"
+            android:label="@string/title_activity_open"
+            android:theme="@style/AppTheme.NoActionBar"></activity>
     </application>
 
 </manifest>

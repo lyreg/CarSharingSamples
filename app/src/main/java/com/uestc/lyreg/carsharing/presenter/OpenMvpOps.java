@@ -1,16 +1,14 @@
 package com.uestc.lyreg.carsharing.presenter;
 
-import com.uestc.lyreg.carsharing.entity.RegResponse;
-
 import java.security.KeyPair;
 import java.security.cert.X509Certificate;
 
 /**
- * Created by Administrator on 2016/5/20.
+ * Created by Administrator on 2016/5/25.
  *
  * @Author lyreg
  */
-public interface EnrollMvpOps {
+public interface OpenMvpOps {
 
     /**
      * View mandatory methods. Available to Presenter
@@ -19,7 +17,6 @@ public interface EnrollMvpOps {
     interface RequiredViewOps {
         void showToast(String msg);
         void showAlert(String msg);
-        void onEnrollSuccess(String crt, String crtSerialNumber);
     }
 
     /**
@@ -29,7 +26,7 @@ public interface EnrollMvpOps {
     interface PresenterOps {
         void onConfigurationChanged(RequiredViewOps view);
         void onDestory(boolean isChangingConfig);
-        void enroll(X509Certificate cert, KeyPair keyPair, String username, String password);
+        void open(X509Certificate serverCrt, KeyPair keyPair, String serialNum, String openRequest);
     }
 
     /**
@@ -37,7 +34,7 @@ public interface EnrollMvpOps {
      * Model -> Presenter
      */
     interface RequiredPresenterOps {
-        void onEnrollSuccess(RegResponse response);
+        void onOpenSuccess();
         void onError(String errorMsg);
     }
 
@@ -46,7 +43,7 @@ public interface EnrollMvpOps {
      * Presenter -> Model
      */
     interface ModelOps {
-        void enroll(X509Certificate cert, KeyPair keyPair, String username, String password);
+        void open(X509Certificate cert, KeyPair keyPair, String serialNum, String openRequest);
         void onDestroy();
     }
 }
