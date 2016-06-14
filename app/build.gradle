@@ -44,4 +44,7 @@ dependencies {
 
     compile "com.squareup.okhttp3:okhttp:$rootProject.ext.okhttpVersion"
     compile "com.squareup.okhttp3:logging-interceptor:$rootProject.ext.okhttpVersion"
+
+
+    compile "com.dmitrymalkovich.android:material-design-dimens:$rootProject.ext.materialDesignDimensVersion"
 }

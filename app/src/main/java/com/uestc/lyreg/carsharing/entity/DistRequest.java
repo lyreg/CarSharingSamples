@@ -1,5 +1,7 @@
 package com.uestc.lyreg.carsharing.entity;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 /**
  * Created by Administrator on 2016/5/20.
  *
@@ -15,6 +17,8 @@ public class DistRequest {
      */
 
     private String rand2;
+
+    @JsonProperty("sessionKey")
     private String sessionkey;
     private String hash;
 

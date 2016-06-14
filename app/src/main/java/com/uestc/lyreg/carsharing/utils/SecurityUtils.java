@@ -23,6 +23,7 @@ import org.spongycastle.cert.X509v3CertificateBuilder;
 import org.spongycastle.cert.jcajce.JcaX509v3CertificateBuilder;
 import org.spongycastle.jce.provider.BouncyCastleProvider;
 import org.spongycastle.operator.ContentSigner;
+import org.spongycastle.operator.ContentVerifier;
 import org.spongycastle.operator.DefaultSignatureAlgorithmIdentifierFinder;
 import org.spongycastle.operator.OperatorCreationException;
 import org.spongycastle.operator.jcajce.JcaContentSignerBuilder;
@@ -72,7 +73,9 @@ public class SecurityUtils {
     private static final String TAG         = "SecurityUtils";
 
     private static final String DES         = "DES";
+    private static final String DES_CIPHER  = "DES/ECB/PKCS5Padding";
     private static final String RSA         = "RSA";
+    private static final String RSAPADDING  = "RSA/None/PKCS1Padding";
     private static final String PROVIDER    = "SC";
     private static final String MD5         = "MD5";
     private static final String MD5WITHRSA  = "MD5withRSA";
@@ -87,7 +90,7 @@ public class SecurityUtils {
 
     public static SecretKey generateDesKey(int keysize)
             throws NoSuchAlgorithmException, NoSuchProviderException {
-        KeyGenerator kg = KeyGenerator.getInstance(DES, PROVIDER);
+        KeyGenerator kg = KeyGenerator.getInstance(DES);
         SecureRandom random = new SecureRandom();
         kg.init(56, random);
         SecretKey key = kg.generateKey();
@@ -101,7 +104,7 @@ public class SecurityUtils {
 
     public static byte[] encryptByDesKey(byte[] plain, SecretKey key)
             throws Exception {
-        Cipher cipher = Cipher.getInstance(DES, PROVIDER);
+        Cipher cipher = Cipher.getInstance(DES_CIPHER);
         SecureRandom random = new SecureRandom();
         cipher.init(Cipher.ENCRYPT_MODE, key, random);
 
@@ -111,7 +114,7 @@ public class SecurityUtils {
 
     public static byte[] decryptByDesKey(byte[] ciphertext, SecretKey key)
             throws Exception {
-        Cipher cipher = Cipher.getInstance(DES, PROVIDER);
+        Cipher cipher = Cipher.getInstance(DES_CIPHER);
         SecureRandom random = new SecureRandom();
 
         cipher.init(Cipher.DECRYPT_MODE, key, random);
@@ -201,6 +204,7 @@ public class SecurityUtils {
 
         Log.e(TAG, "entry is not null");
         KeyPair kp = new KeyPair(entry.getCertificate().getPublicKey(), entry.getPrivateKey());
+
         return kp;
     }
 
@@ -287,6 +291,17 @@ public class SecurityUtils {
 //            return csr;
 //        }
 
+//        if(!req.isSignatureValid(new JcaContentVerifierProviderBuilder().build(kp.getPublic()))) {
+//            throw new Exception("genCSR failed => " + MD5WITHRSA + " : Failed verify check.");
+//        } else {
+//            byte[] encoded = req.getEncoded();
+////            String csr = "-----BEGIN CERTIFICATE REQUEST-----\n";
+////            csr += new String(Base64.encode(encoded));
+////            csr += "\n-----END CERTIFICATE REQUEST-----\n";
+//
+//            return new String(Base64.encode(req.getEncoded()));
+//        }
+
         return new String(Base64.encode(req.getEncoded()));
     }
 
@@ -311,7 +326,8 @@ public class SecurityUtils {
 
     public static byte[] encryptByPublicKey(byte[] plaintext, PublicKey publicKey)
             throws Exception {
-        Cipher cipher = Cipher.getInstance(RSA);
+        Cipher cipher = Cipher.getInstance(RSAPADDING);
+        Log.e(TAG, cipher.getProvider().getName());
         SecureRandom random = new SecureRandom();
         cipher.init(Cipher.ENCRYPT_MODE, publicKey, random);
 
@@ -332,7 +348,8 @@ public class SecurityUtils {
 
     public static byte[] decryptByPrivateKey(byte[] ciphertext, PrivateKey privateKey)
             throws Exception {
-        Cipher cipher = Cipher.getInstance(RSA);
+        Cipher cipher = Cipher.getInstance(RSAPADDING);
+        Log.e(TAG, cipher.getProvider().getName());
         SecureRandom random = new SecureRandom();
         cipher.init(Cipher.DECRYPT_MODE, (Key) privateKey, random);
         //模长
@@ -362,10 +379,11 @@ public class SecurityUtils {
         byte[][] arrays = new byte[x+z][];
         byte[] arr;
         for(int i=0; i<x+z; i++){
-            arr = new byte[len];
             if(i==x+z-1 && y!=0){
+                arr = new byte[y];
                 System.arraycopy(data, i*len, arr, 0, y);
             }else{
+                arr = new byte[len];
                 System.arraycopy(data, i*len, arr, 0, len);
             }
             arrays[i] = arr;
@@ -459,6 +477,84 @@ public class SecurityUtils {
             }
 
             return signature;
+        }
+    }
+
+    public static class keyStoreContentVerifier implements ContentVerifier {
+
+        private AlgorithmIdentifier algorithmIdentifier;
+        private String algorithmText;
+        private ByteArrayOutputStream dataStream;
+        private String keyAlias;
+
+        public keyStoreContentVerifier(String keyAlias)
+        {
+            algorithmText = MD5WITHRSA;
+            algorithmIdentifier = new DefaultSignatureAlgorithmIdentifierFinder().find(algorithmText);
+            dataStream = new ByteArrayOutputStream();
+            this.keyAlias = keyAlias;
+        }
+
+        public void setAlgorithm(String algorithmText)
+        {
+            this.algorithmText = algorithmText;
+            algorithmIdentifier = new DefaultSignatureAlgorithmIdentifierFinder().find(algorithmText);
+        }
+
+        /**
+         * Return the algorithm identifier describing the signature
+         * algorithm and parameters this expander supports.
+         *
+         * @return algorithm oid and parameters.
+         */
+        @Override
+        public AlgorithmIdentifier getAlgorithmIdentifier() {
+            return algorithmIdentifier;
+        }
+
+        /**
+         * Returns a stream that will accept data for the purpose of calculating
+         * a signature for later verification. Use org.spongycastle.util.io.TeeOutputStream if you want to accumulate
+         * the data on the fly as well.
+         *
+         * @return an OutputStream
+         */
+        @Override
+        public OutputStream getOutputStream() {
+            return dataStream;
+        }
+
+        /**
+         * @param expected expected value of the signature on the data.
+         * @return true if the signature verifies, false otherwise
+         */
+        @Override
+        public boolean verify(byte[] expected) {
+            byte[] data;
+            boolean verify;
+            KeyStore ks;
+
+            try {
+                ks = KeyStore.getInstance("AndroidKeyStore");
+                ks.load(null);
+
+                data = dataStream.toByteArray();
+                dataStream.flush();
+
+                Signature s = Signature.getInstance(algorithmText);
+                KeyStore.Entry entry = ks.getEntry(keyAlias, null);
+                PublicKey publickey = ((KeyStore.PrivateKeyEntry) entry).getCertificate().getPublicKey();
+
+
+                s.initVerify(publickey);
+                s.update(expected);
+                verify = s.verify(data);
+                return verify;
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+
+            return false;
         }
     }
 }

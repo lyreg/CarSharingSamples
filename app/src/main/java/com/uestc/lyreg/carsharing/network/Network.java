@@ -9,7 +9,8 @@ import com.uestc.lyreg.carsharing.network.api.CarSharingService;
  */
 public class Network {
 
-    private static String BASE_URL = "http://localhost:8008/";
+//    private static String BASE_URL = "http://localhost:8008/";
+    private static String BASE_URL = "http://139.129.87.221:80/";
 
     private static CarSharingService carSharingApi;
 

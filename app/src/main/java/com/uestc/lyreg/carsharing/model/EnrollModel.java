@@ -11,6 +11,8 @@ import com.uestc.lyreg.carsharing.presenter.EnrollPresenter;
 import com.uestc.lyreg.carsharing.utils.HexStringConvert;
 import com.uestc.lyreg.carsharing.utils.SecurityUtils;
 
+import org.spongycastle.util.encoders.Base64;
+
 import java.security.KeyPair;
 import java.security.cert.X509Certificate;
 import java.security.interfaces.RSAPublicKey;
@@ -131,6 +133,8 @@ public class EnrollModel implements EnrollMvpOps.ModelOps {
         try {
             SecretKey rawSessionKey = SecurityUtils.generateDesKey(56);
             RSAPublicKey serverPubKey = (RSAPublicKey) cert.getPublicKey();
+            Log.e(TAG, HexStringConvert.hexToString(rawSessionKey.getEncoded()));
+            Log.e(TAG, Base64.toBase64String(serverPubKey.getEncoded()));
             String sessionkeyHex = HexStringConvert.hexToString(
                     SecurityUtils.encryptByPublicKey(rawSessionKey.getEncoded(), serverPubKey)
             );
@@ -138,8 +142,11 @@ public class EnrollModel implements EnrollMvpOps.ModelOps {
             String usernameHex = HexStringConvert.hexToString(
                     SecurityUtils.encryptByDesKey(username, rawSessionKey)
             );
+//            String passwordHex = HexStringConvert.hexToString(
+//                    SecurityUtils.encryptByDesKey(SecurityUtils.MD5Digest(password.getBytes()), rawSessionKey)
+//            );
             String passwordHex = HexStringConvert.hexToString(
-                    SecurityUtils.encryptByDesKey(SecurityUtils.MD5Digest(password.getBytes()), rawSessionKey)
+                    SecurityUtils.encryptByDesKey(password, rawSessionKey)
             );
             String rawhash = username + password;
             String hashHex = HexStringConvert.hexToString(

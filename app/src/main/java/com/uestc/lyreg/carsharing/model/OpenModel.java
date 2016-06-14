@@ -115,7 +115,7 @@ public class OpenModel implements OpenMvpOps.ModelOps {
                         return Observable.create(new Observable.OnSubscribe<OpenRequest>() {
                             @Override
                             public void call(Subscriber<? super OpenRequest> subscriber) {
-                                OpenRequest mOpenRequest = genOpenRequest(openRequest, "2096");
+                                OpenRequest mOpenRequest = genOpenRequest(openRequest, "2694");
                                 if(mOpenRequest != null) {
                                     subscriber.onNext(mOpenRequest);
                                     subscriber.onCompleted();
@@ -173,6 +173,10 @@ public class OpenModel implements OpenMvpOps.ModelOps {
             String openReqHex = HexStringConvert.hexToString(
                     SecurityUtils.encryptByPublicKey(openRequest.getBytes(), serverPubKey)
             );
+
+            Log.e(TAG, "rand1 => " + mRandomN1);
+            Log.e(TAG, "serialNum => " + serialNum);
+            Log.e(TAG, "openreq => " + openRequest);
 
             request = new AuthRequest(randomN1Hex, serialNumHex, openReqHex);
 
