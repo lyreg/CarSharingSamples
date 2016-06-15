@@ -29,6 +29,10 @@
         <activity
             android:name=".OpenActivity"
             android:label="@string/title_activity_open"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".ErrorProcessActivity"
+            android:label="@string/title_activity_error_process"
             android:theme="@style/AppTheme.NoActionBar"></activity>
     </application>
 

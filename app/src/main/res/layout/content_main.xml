@@ -29,7 +29,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 style="@style/AppTheme.Button.Primary"
-                android:text="registration"
+                android:text="注册"
                 android:onClick="onButtonEnrollCliked"/>
 
             <Button
@@ -37,8 +37,16 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 style="@style/AppTheme.Button.Primary"
-                android:text="open door"
+                android:text="开门"
                 android:onClick="onButtonOpenClicked"/>
+
+            <Button
+                android:id="@+id/button_error"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                style="@style/AppTheme.Button.Primary"
+                android:text="异常流程"
+                android:onClick="onButtonErrorClicked"/>
 
         </LinearLayout>
 

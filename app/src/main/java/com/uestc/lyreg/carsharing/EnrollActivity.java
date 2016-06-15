@@ -59,7 +59,7 @@ public class EnrollActivity extends AppCompatActivity
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayShowTitleEnabled(true);
-        getSupportActionBar().setTitle("Registration");
+        getSupportActionBar().setTitle("注册");
     }
 
     private void setupView() {

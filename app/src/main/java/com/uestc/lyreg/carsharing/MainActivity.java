@@ -58,4 +58,13 @@ public class MainActivity extends AppCompatActivity {
                     ActivityOptionsCompat.makeSceneTransitionAnimation(this).toBundle());
         }
     }
+
+    public void onButtonErrorClicked(View v) {
+        if(v.getId() == R.id.button_error) {
+            Intent intent = new Intent(this, ErrorProcessActivity.class);
+
+            startActivity(intent,
+                    ActivityOptionsCompat.makeSceneTransitionAnimation(this).toBundle());
+        }
+    }
 }

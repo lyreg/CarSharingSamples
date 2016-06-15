@@ -14,14 +14,14 @@
     tools:context="com.uestc.lyreg.carsharing.EnrollActivity"
     tools:showIn="@layout/activity_enroll">
 
-    <TextView
-        android:textColor="#005685"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:text="Registration"
-        android:textSize="50sp"
-        android:id="@+id/enroll_title" />
+    <!--<TextView-->
+        <!--android:textColor="#005685"-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:layout_gravity="center"-->
+        <!--android:text="注册流程"-->
+        <!--android:textSize="50sp"-->
+        <!--android:id="@+id/enroll_title" />-->
 
     <ScrollView
         android:layout_width="match_parent"
@@ -73,7 +73,7 @@
                 android:layout_height="wrap_content"
                 style="@style/AppTheme.Button.Primary"
                 android:layout_marginTop="16dp"
-                android:text="Register"
+                android:text="注册"
                 android:onClick="onButtonSubmetClicked"/>
         </LinearLayout>
 

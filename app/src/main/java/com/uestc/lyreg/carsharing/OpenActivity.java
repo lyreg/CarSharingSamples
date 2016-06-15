@@ -42,6 +42,7 @@ public class OpenActivity extends AppCompatActivity
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayShowTitleEnabled(true);
+        getSupportActionBar().setTitle("OpenDoor");
     }
 
     private void setupWindowAnimations() {
