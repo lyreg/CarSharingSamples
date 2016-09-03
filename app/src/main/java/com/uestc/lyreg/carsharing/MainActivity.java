@@ -7,6 +7,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.transition.Explode;
 import android.transition.Slide;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 
@@ -19,6 +20,18 @@ public class MainActivity extends AppCompatActivity {
         setupWindowAnimations();
 
         setupToolBar();
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        Log.e("Main", "onPause");
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        Log.e("Main", "onStop");
     }
 
     private void setupToolBar(){

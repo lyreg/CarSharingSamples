@@ -40,7 +40,6 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 style="@style/AppTheme.Button.Primary"
-                android:layout_marginTop="16dp"
                 android:text="模拟开门请求(错误用户证书序列号)"
                 android:onClick="onButtonErrorClicked"/>
 
@@ -49,7 +48,6 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 style="@style/AppTheme.Button.Primary"
-                android:layout_marginTop="16dp"
                 android:text="模拟开门指令(错误会话密钥)"
                 android:onClick="onButtonErrorClicked"/>
 
